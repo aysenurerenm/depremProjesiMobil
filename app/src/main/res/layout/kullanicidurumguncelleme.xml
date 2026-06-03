@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kullanıcı TC"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/etTC"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="11 Haneli TC Giriniz"
+        android:inputType="number"
+        android:maxLength="11"
+        android:importantForAutofill="no" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Güncel Durum"
+        android:textStyle="bold" />
+
+    <Spinner
+        android:id="@+id/spinnerDurum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Yetkili Notu / Açıklama"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/etAciklama"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top"
+        android:hint="Durum hakkında detay yazın..."
+        android:importantForAutofill="no"
+        android:inputType="textMultiLine"
+        android:lines="4" />
+
+    <Button
+        android:id="@+id/btnGuncelle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="DURUMU GÜNCELLE VE KAYDET" />
+
+</LinearLayout>

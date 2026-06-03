@@ -29,6 +29,9 @@ android {
             )
         }
     }
+    buildFeatures {
+        viewBinding=true
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -46,4 +49,14 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("org.osmdroid:osmdroid-android:6.1.18")
+// PreferenceManager için gerekli
+    implementation("androidx.preference:preference-ktx:1.2.1")
+    implementation("com.google.android.gms:play-services-location:21.2.0")
+    implementation("androidx.work:work-runtime-ktx:2.8.1")
+    // Eğer dosya build.gradle (Groovy) ise:
+
+
+// Eğer dosya build.gradle.kts (Kotlin DSL) ise şu şekilde ekle:
+    implementation("com.google.firebase:firebase-messaging-ktx:24.0.0")
 }

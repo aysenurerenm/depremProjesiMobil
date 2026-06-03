@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F9FA">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Üst Panel: Figma Mor Tasarım -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#9333EA"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sürücü Paneli"
+                android:textColor="#FFFFFF"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtRotaKod"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Rota Bilgisi Yükleniyor..."
+                android:textColor="#E9D5FF"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <!-- Navigasyon Butonu -->
+        <Button
+            android:id="@+id/btnSevkiyataBasla"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_margin="16dp"
+            android:backgroundTint="#2563EB"
+            android:text="Sevkiyatı Başlat"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            app:cornerRadius="12dp" />
+        <Button
+            android:id="@+id/btnTamamla"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_margin="16dp"
+            android:backgroundTint="#10B981"
+            android:text="Teslimatı Tamamla"
+            android:textColor="#FFFFFF"
+            app:cornerRadius="12dp" />
+
+        <!-- Alan Yetkilileri (Yatay Liste) -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="📍 Alan Yetkilileri (Varış Noktası)"
+            android:textColor="#374151"
+            android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvAlanYetkilileri"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="8dp" />
+
+        <!-- Depo Yetkilileri (Yatay Liste) -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="📦 Depo Yetkilileri (Çıkış Noktası)"
+            android:textColor="#374151"
+            android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvDepoYetkilileri"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="8dp" />
+
+        <!-- Yükler (Dikey Liste) -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="🚚 Taşınan Yükler"
+            android:textColor="#374151"
+            android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvYukler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:paddingBottom="16dp" />
+
+        <Button
+            android:id="@+id/btnTamamlananGor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tamamlanan Sevkiyatlar"
+            android:layout_marginTop="10dp"/>
+
+    </LinearLayout>
+</ScrollView>

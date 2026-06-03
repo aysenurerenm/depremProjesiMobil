@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:elevation="6dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <TextView
+            android:id="@+id/txtDepoAd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Depo"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/txtAlanAd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Alan"/>
+
+        <TextView
+            android:id="@+id/txtUrunAd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ürün"/>
+
+        <TextView
+            android:id="@+id/txtArac"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Araç"/>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

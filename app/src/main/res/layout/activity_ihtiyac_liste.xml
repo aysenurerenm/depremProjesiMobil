@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F8F9FA">
+
+    <!-- Activity içindeki binding.tvListeBaslik burayı bulur -->
+    <TextView
+        android:id="@+id/tvListeBaslik"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="İhtiyaç Listesi"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:background="@android:color/white"
+        android:elevation="4dp"/>
+
+    <!-- Activity içindeki binding.rvTumIhtiyaclar burayı bulur -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvTumIhtiyaclar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp"
+        android:clipToPadding="false"/>
+
+</LinearLayout>

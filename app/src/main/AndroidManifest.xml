@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+    <queries>
+        <package android:name="com.google.android.contacts" />
+        <package android:name="com.android.contacts" />
+    </queries>
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <application
 
         android:allowBackup="true"
@@ -24,7 +33,38 @@
         </activity>
         <activity android:name=".LoginActivity" android:exported="false" />
         <activity android:name=".WelcomeActivity" android:exported="false" />
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="false" />
+        <activity android:name=".AlanYoneticisiActivity"  android:exported="false"/>
+        <activity
+            android:name=".IhtiyacEkle"
+            android:exported="false" />
+        <activity
+            android:name=".IhtiyacListeActivity"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:exported="false" />
+        <activity
+            android:name=".KullaniciKayitActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".KullaniciDurumGuncelleActivity"
+            android:exported="false" />
+        <activity android:name=".DepoActivity" android:exported="false" />
+        <activity android:name=".AlanIhtiyacActivity" android:exported="true" />
+        <activity android:name=".SevkiyatActivity"/>
+        <activity android:name=".TamamlananActivity"/>
+        <activity android:name=".SürücüActivity"/>
+        <activity android:name=".TamamlananSurucuActivity"/>
+        <service android:name=".BildirimService" android:exported="false" />
+
 
     </application>
-
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+        </intent>
+    </queries>
 </manifest>

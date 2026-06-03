@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -23,19 +24,22 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        // Bileşenleri XML ile bağlama
         etTC = findViewById(R.id.etTC)
         etSifre = findViewById(R.id.etSifre)
         btnGiris = findViewById(R.id.btnGirisYap)
 
         btnGiris.setOnClickListener {
-            val tc = etTC.text.toString()
-            val sifre = etSifre.text.toString()
+            val tc = etTC.text.toString().trim()
+            val sifre = etSifre.text.toString().trim()
 
             if (tc.length == 11 && sifre.isNotEmpty()) {
                 girişSorgula(tc, sifre)
             } else {
-                Toast.makeText(this, "TC 11 haneli olmalı ve şifre boş bırakılmamalıdır.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    "TC 11 haneli olmalı ve şifre boş bırakılmamalıdır.",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
@@ -45,48 +49,111 @@ class LoginActivity : AppCompatActivity() {
 
         RetrofitClient.api.loginControl(loginData).enqueue(object : Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+
                 if (response.isSuccessful) {
                     val body = response.body()
+
                     if (body?.status == "success") {
-                        // 1. Hoş geldin mesajını göster
                         val ad = body.ad ?: ""
                         val soyad = body.soyad ?: ""
+                        val kullaniciID = body.kullaniciID
+                        val rolID = body.rolID
+
                         Toast.makeText(
                             this@LoginActivity,
                             "Hoş geldin, $ad $soyad",
                             Toast.LENGTH_LONG
                         ).show()
 
-                        Log.d("LOGIN", "Giriş Başarılı: $ad")
+                        // 1. Kimlik doğrulama kontrolü
+                        if (kullaniciID != null) {
+                            val temizId = kullaniciID.toString().trim()
 
-                        // 2. Ana sayfaya geçiş yap
-                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                        intent.putExtra("KULLANICI_ADI", ad)
-                        startActivity(intent)
-                        finish()
+                            // 2. SharedPreferences kaydı (Worker için hayati alan)
+                            val sharedPref =
+                                getSharedPreferences("UygulamaPrefs", Context.MODE_PRIVATE)
+                            sharedPref.edit().putString("kullaniciID", temizId).apply()
+
+                            // 3. Intent yönlendirmesi
+                            var intent: Intent? = null
+                            if (rolID == 1) {
+                                intent = Intent(this@LoginActivity, WelcomeActivity::class.java)
+                            } else if (rolID == 2) {
+                                intent =
+                                    Intent(this@LoginActivity, AlanYoneticisiActivity::class.java)
+                            } else if (rolID == 3) {
+                                intent = Intent(this@LoginActivity, DepoActivity::class.java)
+                            } else if (rolID == 4) {
+                                intent = Intent(this@LoginActivity, SürücüActivity::class.java)
+                            }
+
+                            if (intent != null) {
+                                intent.putExtra("CITIZEN_ID", temizId)
+                                startActivity(intent)
+                                finish()
+                            } else {
+                                Toast.makeText(
+                                    this@LoginActivity,
+                                    "Yetkisiz rol: $rolID",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                            Log.d("LOGIN", "Giriş Başarılı: ID=$temizId, Rol=$rolID")
+
+                        } else {
+                            Toast.makeText(
+                                this@LoginActivity,
+                                "Kullanıcı ID sunucudan boş döndü!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     } else {
-                        Toast.makeText(
-                            this@LoginActivity,
-                            body?.message ?: "Giriş bilgileri hatalı",
-                            Toast.LENGTH_LONG
-                        ).show()
+                        // status == "success" değilse hatalı şifre/tc uyarısı
+                        val msg = body?.message ?: "Giriş bilgileri hatalı"
+                        Toast.makeText(this@LoginActivity, msg, Toast.LENGTH_LONG).show()
                     }
                 } else {
-                    Toast.makeText(
-                        this@LoginActivity,
-                        "Sunucu hatası: ${response.code()}",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
+                    // response.isSuccessful değilse (Örn: 400, 404, 500)
+                    try {
+                        // Sunucudan gelen hata JSON metnini alıyoruz (Örn: {"status":"error", "message":"Şifre Hatalı"})
+                        val errorRawString = response.errorBody()?.string()
 
+                        if (!errorRawString.isNullOrEmpty()) {
+                            val jsonObject = org.json.JSONObject(errorRawString)
+                            val sunucuHataMesaji =
+                                jsonObject.optString("message", "Giriş başarısız.")
+
+                            // Mobil ekranda doğrudan "Şifre Hatalı" veya "Kullanıcı Bulunamadı" yazar
+                            Toast.makeText(this@LoginActivity, sunucuHataMesaji, Toast.LENGTH_LONG)
+                                .show()
+                        } else {
+                            Toast.makeText(
+                                this@LoginActivity,
+                                "Hata Kodu: ${response.code()}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    } catch (e: Exception) {
+                        // JSON ayrıştırılamazsa fallback olarak HTTP kodunu göster
+                        Toast.makeText(
+                            this@LoginActivity,
+                            "Sunucu Hatası: ${response.code()}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            } // onResponse metodu kapanışı
+
+            // Durum 3: İnternet Yok / Sunucu Çökük (Ağ Hatası)
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                 Log.e("LOGIN", "Bağlantı Hatası: ${t.message}")
                 Toast.makeText(
                     this@LoginActivity,
-                    "İnternet bağlantınızı kontrol edin",
+                    "Sunucuya bağlanılamadı. İnternetinizi kontrol edin.",
                     Toast.LENGTH_SHORT
                 ).show()
             }
         })
-    }}
+    }
+}
