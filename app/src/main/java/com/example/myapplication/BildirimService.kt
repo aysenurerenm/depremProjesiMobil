@@ -70,6 +70,7 @@ class BildirimService : Service() {
                     // 🔥 PROJE İSTERİ: YEREL CİHAZDA VERİ DEPOLAMA (SharedPreferences)
                     val sharedPref = getSharedPreferences("DepoHafizasi", Context.MODE_PRIVATE)
 
+
                     // Telefona kaydedilmiş son sayıyı al (Eğer ilk kez açılıyorsa -1 döner)
                     val eskiSayi = sharedPref.getInt("KAYITLI_TALEP_SAYISI", -1)
 

@@ -32,13 +32,14 @@
 
             <TextView
                 android:id="@+id/txtName"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-
+                android:layout_marginEnd="16dp"
                 android:textColor="@color/white"
                 android:textSize="22sp"
                 android:fontFamily="sans-serif-medium"
+                app:layout_constraintEnd_toStartOf="@id/btn_logout"
                 app:layout_constraintStart_toEndOf="@id/imgProfile"
                 app:layout_constraintTop_toTopOf="@id/imgProfile" />
 
@@ -46,11 +47,23 @@
                 android:id="@+id/txtCitizenID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:textColor="#E0E0E0"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@id/txtName"
                 app:layout_constraintTop_toBottomOf="@id/txtName" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_logout"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Çıkış"
+                android:textColor="#D32F2F"
+                app:backgroundTint="#FFFFFF"
+                app:cornerRadius="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.appbar.AppBarLayout>
@@ -66,7 +79,6 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Durum Kartı -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -95,7 +107,6 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
-
                         android:textColor="#F57F17"
                         android:textSize="16sp"
                         android:textStyle="bold"
@@ -108,7 +119,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-
                         android:textSize="12sp"
                         android:alpha="0.7"
                         app:layout_constraintStart_toStartOf="@id/txtStatus"
@@ -116,7 +126,6 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Aile Özeti Başlığı -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -129,7 +138,6 @@
                 android:textStyle="bold"
                 android:textColor="#7F8C8D"/>
 
-            <!-- Aile Kartı Başlangıcı -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -158,7 +166,6 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-
                                 android:textSize="12sp" />
                         </LinearLayout>
 
@@ -166,8 +173,6 @@
                             android:layout_width="1dp"
                             android:layout_height="match_parent"
                             android:background="#F0F0F0" />
-
-
                     </LinearLayout>
 
                     <View
@@ -175,7 +180,6 @@
                         android:layout_height="1dp"
                         android:background="#F0F0F0" />
 
-                    <!-- YAKIN EKLEME ALANI -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -217,7 +221,6 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Hızlı İşlemler Başlığı -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -236,7 +239,6 @@
                 android:orientation="horizontal"
                 android:baselineAligned="false">
 
-                <!-- Yardım Talebi -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardHelpRequest"
                     android:layout_width="0dp"
@@ -270,7 +272,6 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- Güvendeyim -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardSafetyToggle"
                     android:layout_width="0dp"
@@ -305,7 +306,6 @@
                 </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
 
-            <!-- Toplanma Alanı Bölümü -->
             <include
                 android:id="@+id/layoutAssemblyArea"
                 layout="@layout/item_assembly_area"
@@ -313,7 +313,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp" />
 
-            <!-- Harita Bölümü -->
             <org.osmdroid.views.MapView
                 android:id="@+id/map"
                 android:layout_width="match_parent"

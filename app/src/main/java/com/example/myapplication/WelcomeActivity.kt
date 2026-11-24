@@ -2,6 +2,7 @@ package com.example.myapplication
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent // ✔️ Yönlendirme için eklendi
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
@@ -9,6 +10,7 @@ import android.os.Looper
 import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog // ✔️ Onay kutusu için eklendi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.preference.PreferenceManager
@@ -109,6 +111,35 @@ class WelcomeActivity : AppCompatActivity() {
                 ExistingPeriodicWorkPolicy.KEEP, // KEEP sayesinde süreç sıfırlanıp durmaz
                 durumIstegi
             )
+        }
+
+        // 🚪 ✔️ YENİ EKLENEN ÇIKIŞ YAP BUTONU İŞLEVSELLİĞİ
+        binding.btnLogout.setOnClickListener {
+            AlertDialog.Builder(this)
+                .setTitle("Çıkış Yap")
+                .setMessage("Hesabınızdan çıkış yapmak istediğinize emin misiniz?")
+                .setPositiveButton("Evet") { _, _ ->
+
+                    // 1. Arka planda çalışan periyodik WorkManager görevini durdur
+                    WorkManager.getInstance(applicationContext).cancelUniqueWork(uniqueWorkName)
+
+                    // 2. SharedPreferences içinde saklanan kullanıcı verilerini temizle
+                    val sharedPref = getSharedPreferences("UygulamaPrefs", Context.MODE_PRIVATE)
+                    sharedPref.edit().remove("kullaniciID").apply()
+
+                    // 3. ✔️ DEĞİŞİKLİK: Kullanıcıyı Ana Sayfa (MainActivity) ekranına yönlendir
+                    // (Not: Eğer ana sayfanızın adı MainActivity'den farklıysa, örn. HomeActivity ise ismi ona göre güncelleyin)
+                    val intent = Intent(this, MainActivity::class.java)
+
+                    // Geri tuşuyla bu ekrana (Depo/Welcome ekranına) tekrar dönülmesini engellemek için geçmişi temizle
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+
+                    // Mevcut aktiviteyi sonlandır
+                    finish()
+                }
+                .setNegativeButton("İptal", null)
+                .show()
         }
     }
 

@@ -47,7 +47,7 @@ class IhtiyacAdapter(private var ihtiyacListesi: MutableList<IhtiyacListesi>) :
         holder.tvTalepZamani.text = "📝 Oluşturulma: ${formatZaman(ihtiyac.talepZamani)}"
 
         when (durumMetni) {
-            "Beklemede" -> {
+            "Bekliyor" -> {
                 holder.tvDurum.setBackgroundColor(Color.parseColor("#E65100"))
                 holder.tvOnayZamani.visibility = View.GONE
                 holder.tvTamamZamani.visibility = View.GONE

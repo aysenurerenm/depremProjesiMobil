@@ -10,33 +10,53 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Üst Panel: Figma Mor Tasarım -->
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#9333EA"
-            android:orientation="vertical"
             android:padding="24dp">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/txtPanelTitle"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
                 android:text="Sürücü Paneli"
                 android:textColor="#FFFFFF"
                 android:textSize="22sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btn_logout" />
 
             <TextView
                 android:id="@+id/txtRotaKod"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Rota Bilgisi Yükleniyor..."
                 android:textColor="#E9D5FF"
-                android:textSize="16sp" />
-        </LinearLayout>
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtPanelTitle"
+                app:layout_constraintEnd_toStartOf="@id/btn_logout"
+                android:layout_marginEnd="16dp" />
 
-        <!-- Navigasyon Butonu -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_logout"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Çıkış"
+                android:textColor="#EF4444"
+                app:backgroundTint="#FFFFFF"
+                app:cornerRadius="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <Button
             android:id="@+id/btnSevkiyataBasla"
             android:layout_width="match_parent"
@@ -48,17 +68,18 @@
             android:textColor="#FFFFFF"
             android:textSize="16sp"
             app:cornerRadius="12dp" />
+
         <Button
             android:id="@+id/btnTamamla"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:layout_margin="16dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="16dp"
             android:backgroundTint="#10B981"
             android:text="Teslimatı Tamamla"
             android:textColor="#FFFFFF"
             app:cornerRadius="12dp" />
 
-        <!-- Alan Yetkilileri (Yatay Liste) -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -75,7 +96,6 @@
             android:paddingHorizontal="8dp"
             android:paddingVertical="8dp" />
 
-        <!-- Depo Yetkilileri (Yatay Liste) -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -92,7 +112,6 @@
             android:paddingHorizontal="8dp"
             android:paddingVertical="8dp" />
 
-        <!-- Yükler (Dikey Liste) -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -113,8 +132,9 @@
             android:id="@+id/btnTamamlananGor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tamamlanan Sevkiyatlar"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="Tamamlanan Sevkiyatlar" />
 
     </LinearLayout>
 </ScrollView>

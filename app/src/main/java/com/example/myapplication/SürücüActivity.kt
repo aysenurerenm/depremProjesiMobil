@@ -2,6 +2,7 @@ package com.example.myapplication
 
 import android.content.Intent
 import android.net.Uri
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -49,6 +50,30 @@ class SürücüActivity : AppCompatActivity() {
                 val intent = Intent(this, TamamlananSurucuActivity::class.java)
                 intent.putExtra("kullanici_id", kullaniciId)
                 startActivity(intent)
+            }
+            findViewById<Button>(R.id.btn_logout).setOnClickListener {
+                androidx.appcompat.app.AlertDialog.Builder(this)
+                    .setTitle("Çıkış Yap")
+                    .setMessage("Hesabınızdan çıkış yapmak istediğinize emin misiniz?")
+                    .setPositiveButton("Evet") { _, _ ->
+
+                        // 1. Eğer bu sayfada kurduğunuz periyodik bir WorkManager işçisi varsa durdurun:
+                        // androidx.work.WorkManager.getInstance(applicationContext).cancelUniqueWork("GorevAdiniz")
+
+                        // 2. SharedPreferences oturum kayıtlarını temizle
+                        val sharedPref = getSharedPreferences("UygulamaPrefs", Context.MODE_PRIVATE)
+                        sharedPref.edit().remove("kullaniciID").apply()
+
+                        // 3. Kullanıcıyı ana sayfaya gönder
+                        val intent = Intent(this, MainActivity::class.java)
+
+                        // Sayfa geçmişini temizle (Geri tuşu ile tekrar buraya dönemesin)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
+                        finish()
+                    }
+                    .setNegativeButton("İptal", null)
+                    .show()
             }
 
         } else {

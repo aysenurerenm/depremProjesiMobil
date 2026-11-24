@@ -26,7 +26,7 @@ class IhtiyacListeActivity : AppCompatActivity() {
         setupRecyclerView()
 
         val secilenAlanID = intent.getIntExtra("ALAN_ID", -1)
-        val durumFiltresi = intent.getStringExtra("DURUM_FILTRESI") ?: "Beklemede"
+        val durumFiltresi = intent.getStringExtra("DURUM_FILTRESI") ?: "Bekliyor"
 
         binding.tvListeBaslik.text = "$durumFiltresi Talepler"
 

@@ -23,6 +23,7 @@ class AlanYoneticisiActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityYoneticiPanelBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -53,6 +54,30 @@ class AlanYoneticisiActivity : AppCompatActivity() {
 
         // Buton Tıklama Dinleyicileri
         setupClickListeners()
+        findViewById<com.google.android.material.button.MaterialButton>(R.id.btn_logout).setOnClickListener {
+            androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("Çıkış Yap")
+                .setMessage("Hesabınızdan çıkış yapmak istediğinize emin misiniz?")
+                .setPositiveButton("Evet") { _, _ ->
+
+                    // 1. Varsa bu sayfaya özel arka plan işlerini/servislerini sonlandırın
+                    // androidx.work.WorkManager.getInstance(applicationContext).cancelUniqueWork("İşAdı")
+
+                    // 2. SharedPreferences oturum kayıtlarını silerek temizle
+                    val sharedPref = getSharedPreferences("UygulamaPrefs", android.content.Context.MODE_PRIVATE)
+                    sharedPref.edit().remove("kullaniciID").apply()
+
+                    // 3. Kullanıcıyı ana sayfaya yönlendir
+                    val intent = android.content.Intent(this, MainActivity::class.java)
+
+                    // Geri tuşuyla bu yönetim paneline tekrar sızılmasını engellemek için geçmişi temizle
+                    intent.flags = android.content.Intent.FLAG_ACTIVITY_NEW_TASK or android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                    finish()
+                }
+                .setNegativeButton("İptal", null)
+                .show()
+        }
     }
 
     private fun setupClickListeners() {
@@ -65,7 +90,7 @@ class AlanYoneticisiActivity : AppCompatActivity() {
         }
 
         binding.tvTumBekleyenler.setOnClickListener {
-            startListeActivity("Beklemede")
+            startListeActivity("Bekliyor")
         }
 
         binding.tvTumOnaylananlar.setOnClickListener {
@@ -121,7 +146,7 @@ class AlanYoneticisiActivity : AppCompatActivity() {
                     val list = response.body() ?: emptyList()
 
                     // Duruma göre filtrele ve ilk 5 kaydı al
-                    val bekleyenler = list.filter { it.durum.trim() == "Beklemede" }.take(5)
+                    val bekleyenler = list.filter { it.durum.trim() == "Bekliyor" }.take(5)
                     val onaylananlar = list.filter { it.durum.trim() == "Onaylandı" }.take(5)
 
                     bekleyenAdapter.updateList(bekleyenler)

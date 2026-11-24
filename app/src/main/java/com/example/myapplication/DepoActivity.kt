@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AlertDialog // ✔️ Onay kutusu için eklendi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
@@ -86,7 +87,7 @@ class DepoActivity : AppCompatActivity() {
 
         Log.d("API_ID", "Intent'ten gelen ID: $kullaniciID")
 
-        if (kullaniciID!="0") {
+        if (kullaniciID != "0" && !kullaniciID.isNullOrEmpty()) {
 
             // 🔥 PROFESYONEL ARKA PLAN SERVİSİNİ BAŞLAT (Uygulama alta alınsa bile dinler)
             val serviceIntent = Intent(this, BildirimService::class.java)
@@ -155,6 +156,40 @@ class DepoActivity : AppCompatActivity() {
 
         } else {
             Toast.makeText(this, "Oturum bilgisi bulunamadı!", Toast.LENGTH_SHORT).show()
+        }
+
+        // ⬅️ ✔️ YENİ EKLENEN GERİ TUŞU İŞLEVSELLİĞİ
+        findViewById<TextView>(R.id.btnGeri).setOnClickListener {
+            finish() // Bir önceki aktiviteye geri döner
+        }
+
+        // 🚪 ✔️ YENİ EKLENEN ÇIŞIŞ YAP BUTONU İŞLEVSELLİĞİ
+        findViewById<Button>(R.id.btn_logout).setOnClickListener {
+            AlertDialog.Builder(this)
+                .setTitle("Çıkış Yap")
+                .setMessage("Hesabınızdan çıkış yapmak istediğinize emin misiniz?")
+                .setPositiveButton("Evet") { _, _ ->
+
+                    // 1. Çalışmakta olan arka plan bildirim servisini durdur
+                    val serviceIntent = Intent(this, BildirimService::class.java)
+                    stopService(serviceIntent)
+
+                    // 2. SharedPreferences içindeki tüm oturum verilerini sil
+                    val sharedPref = getSharedPreferences("UygulamaPrefs", Context.MODE_PRIVATE)
+                    sharedPref.edit().clear().apply()
+
+                    // 3. Giriş ekranına yönlendir (Projenizdeki giriş ekranı sınıfının adıyla güncelleyin)
+                    val mainActivity = Intent(this, MainActivity::class.java)
+
+                    // Tüm sayfa geçmişini temizle
+                    mainActivity.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(mainActivity)
+
+                    // Mevcut sayfayı kapat
+                    finish()
+                }
+                .setNegativeButton("İptal", null)
+                .show()
         }
     }
 
@@ -276,6 +311,7 @@ class DepoActivity : AppCompatActivity() {
         val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         manager.notify(bildirimId, builder.build())
     }
+
     override fun onDestroy() {
         super.onDestroy()
         // Sayfadan çıkıldığında servisi durdurur
